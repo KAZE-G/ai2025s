@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://garvin2009.github.io/ai2025s/hw03/index.html -->
+<html lang="zh-Hant-TW"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<!-- Required meta tags -->
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- D3, jquery -->
+<script src="./index3_files/d3.v3.min.js.下載" charset="utf-8"></script>
+<script src="./index3_files/jquery-3.6.0.min.js.下載" charset="utf-8"></script>
+
+<!-- Bootstrap CSS -->
+<link href="./index3_files/bootstrap.min.css" rel="stylesheet">
+<script src="./index3_files/bootstrap.bundle.min.js.下載"></script>
+
+<title>生成式人工智慧導論 113-2</title>
+<!-- https://alexlenail.me/NN-SVG/about.html -->
+<link rel="icon" href="https://garvin2009.github.io/ai2025s/hw00/favicon.svg">
+<style type="text/css">
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100&display=swap');
+
+  @font-face {
+    font-family:'CircleFont';
+    src: url(https://circle472.github.io/ct2022s/hw04/CircleFont_v2.woff2); 
+  }
+
+  table {
+      border-collapse: collapse;
+      border: 2px solid white; /* rgba(217,140,144,1) */
+      font-size:  16pt;
+      margin-left: auto;
+      margin-right: auto;
+  }
+
+  td,
+  th {
+      border: 1px solid white;
+      padding: 2px 8px;
+  }
+
+  .flipswitch
+  {
+      position: relative;
+      background: white;
+      width: 120px;
+      height: 20px;
+      -webkit-appearance: initial;
+      border-radius: 3px;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      outline:none;
+      font-size: 14px;
+      font-family: Trebuchet, Arial, sans-serif;
+      font-weight: bold;
+      cursor:pointer;
+      border:1px solid #ddd;
+  }
+  .flipswitch:after
+  {
+      position:absolute;
+      top:5%;
+      display:block; 
+      line-height:16px;
+      width:45%;
+      height:90%;
+      background:#fff;
+      box-sizing:border-box;
+      text-align:center;
+      transition: all 0.3s ease-in 0s; 
+      color:rgba(159,53,58,1);
+      border:#888 1px solid;
+      border-radius:3px;
+  }
+  .flipswitch:after
+  {
+      left:2%;
+      content: "未完成";
+  }
+  .flipswitch:checked:after
+  {
+      left:53%;
+      content: "完成";
+  }
+
+  body {
+    background-color: rgb(106, 76, 156); /* #6A4C9C */
+    color: rgb(106, 76, 156);
+    font-family: 'CircleFont', 'Noto Sans JP', serif;
+  }
+  
+  .container-fluid {
+    width:  90%;
+  }
+
+  .hw12 {
+    border: 1px solid rgb(159, 53, 58);
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  .twenty {
+    border: 1px solid #f9eced;
+    color: #f9eced;
+    padding: 8px;
+    font-size: 18pt;
+  }
+
+  .twenty a {
+    color:  yellow;
+  }
+
+  .twenty a:hover {
+    color: #f9eced;
+    font-size:  16pt;
+  }
+
+  .twenty:hover {
+      box-shadow: 0 0 5px 3px #f9eced;
+      color: cyan; 
+      text-shadow: 0 0 6px #FFFFFF, 0 0 6px #000000;
+  }
+
+  .toprow {
+    margin-top: 36px;
+  }
+  .image-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+        }
+
+        .image-container img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+  .image-container img.hover-img {
+            opacity: 0;
+        }
+
+  .image-container:hover img.hover-img {
+            opacity: 1;
+        }
+
+  .image-container:hover img.default-img {
+            opacity: 0;
+        }
+  
+  .bottomrow {
+    margin-bottom: 36px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container-fluid">
+
+  <!-- ---------------------------------------------- -->
+  <div class="row hw12 toprow">
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw00/index.html">00</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw01/index.html">01</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw02/index.html">02</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw03/index.html">03</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw04/index.html">04</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw05/index.html">05</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw06/index.html">06</a></div>
+    <div class="col twenty"><a href="https://garvin2009.github.io/ai2025s/hw07/index.html">07</a></div>
+  </div>
+
+  <!-- ------------------------------------------------>
+  <div class="row hw12">
+    <div class="col-md-12 twenty">
+      <h1>作業 03-相似分析</h1>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------>
+  <div class="row hw12">
+    <div class="col-md-12 twenty">
+      本次作業非常簡單，只要將同學們的字下載下來後，執行程式就完成了，而且還可以讓電腦去計算自己跟誰的字很像，還蠻有趣的。整個作業到此為止，都算是有趣的，前面的手寫到後來看到成品，幾乎是無法想像的。
+  </div>
+
+  <!-- ------------------------------------------------>
+  <div class="row hw12">
+    <div class="col-md-12 twenty">
+      <table>
+        <tbody><tr>
+          <th>總分</th>
+          <th>完成後打勾</th>
+          <th>配分</th>
+          <th>分項描述</th>
+        </tr>
+        <tr>
+          <td rowspan="4" id="myTotal">10</td>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox1" checked=""></td>
+          <td id="m1">3</td>
+          <td>Simple baseline - 上傳 1個與lpips和ssim有關的.csv檔</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox2" checked=""></td>
+          <td id="m2">3</td>
+          <td>Medium baseline - 能夠在散點圖中呈現結果</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox3" checked=""></td>
+          <td id="m3">4</td>
+          <td>Strong baseline - 製造hover效果</td>
+        </tr>
+        <tr>
+          <td><input type="checkbox" class="flipswitch" id="myCheckbox4"></td>
+          <td id="m4">-10</td>
+          <td>沒有寫100字心得</td>
+        </tr>
+
+      </tbody></table>
+    </div>
+  </div>
+
+  <!-- ------------------------------------------------>
+  <div class="row hw12">
+    <div class="col-md-12 twenty">    
+      <figure>
+        <figcaption>其他人的"陳"和我的相似度</figcaption>
+            <img src="./index3_files/results.png" width="700px">
+        </figure>
+    </div>
+  </div>
+  <!-- ------------------------------------------------>
+  <div class="row hw12" align="center">
+    <iframe style="background-color: #fff;" src="./index3_files/hover.html" width="800" height="600" frameborder="0"></iframe>
+  </div>
+  <!-- ------------------------------------------------>
+
+  <!-- ------------------------------------------------>
+
+
+<script>
+  $(function() {
+    var f = function() {
+      $(this).next().text($(this).is(':checked') ? '做完' : '未做完');
+    };
+    $('input').change(f).trigger('change');
+  });
+
+  d3.select("#myCheckbox1").on("change",update);
+  d3.select("#myCheckbox2").on("change",update);
+  d3.select("#myCheckbox3").on("change",update);
+  d3.select("#myCheckbox4").on("change",update);
+  // d3.select("#myCheckbox5").on("change",update);
+  // d3.select("#myCheckbox6").on("change",update);
+  // d3.select("#myCheckbox7").on("change",update);
+
+  update();
+  
+  function update(){
+
+    var score = 0;
+
+    if (d3.select("#myCheckbox1").property("checked")){
+      score += parseInt(d3.select('#m1').html());
+    }
+
+    if (d3.select("#myCheckbox2").property("checked")){
+      score += parseInt(d3.select('#m2').html());   
+    }
+
+    if (d3.select("#myCheckbox3").property("checked")){
+      score += parseInt(d3.select('#m3').html());   
+    }
+
+    if (d3.select("#myCheckbox4").property("checked")){
+      score += parseInt(d3.select('#m4').html());   
+    }
+
+
+    d3.select("#myTotal").html(score);    
+  }
+</script>
+
+
+
+</div></div></body></html>
